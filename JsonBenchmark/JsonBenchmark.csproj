@@ -149,6 +149,7 @@
   <ItemGroup>
     <Compile Include="JsonBenchmarkBase.cs" />
     <Compile Include="JsonDeserializersBenchmarks.cs" />
+    <Compile Include="JsonSerializersBenchmarks.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDTOs\Result.cs" />
