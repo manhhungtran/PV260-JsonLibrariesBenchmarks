@@ -47,6 +47,20 @@ namespace JsonBenchmark
 
 
         [Benchmark]
+        public Root Manatee_Deserialize_ButAsync()
+        {
+            var serializer = new Manatee.Json.Serialization.JsonSerializer();
+            Root result;
+            using (var sr = new StreamReader(ChuckPath))
+            {
+                var jsonValue = JsonValue.ParseAsync(sr);
+                result = serializer.Deserialize<Root>(jsonValue.Result);
+            }
+
+            return result;
+        }
+
+        [Benchmark]
         public Root ServiceStack_Deserialize_String()
         {
             return ServiceStack.Text.JsonSerializer.DeserializeFromString<Root>(JsonSampleString);
