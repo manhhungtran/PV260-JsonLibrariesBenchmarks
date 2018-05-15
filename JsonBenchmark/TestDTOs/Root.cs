@@ -1,4 +1,4 @@
-﻿namespace JsonBenchmark.TestDTOs
+﻿namespace JsonBenchmark
 {
     public class Root
     {

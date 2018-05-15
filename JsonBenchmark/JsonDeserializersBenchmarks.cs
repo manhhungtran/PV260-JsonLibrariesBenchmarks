@@ -1,11 +1,12 @@
 ﻿using System.IO;
+
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Attributes.Columns;
 using BenchmarkDotNet.Attributes.Exporters;
 using BenchmarkDotNet.Attributes.Jobs;
-using JsonBenchmark.TestDTOs;
+
+using Manatee.Json;
 using Newtonsoft.Json;
-using Json;
 
 namespace JsonBenchmark
 {
@@ -37,9 +38,18 @@ namespace JsonBenchmark
 
 
         [Benchmark]
-        public Root Json_Deserialize()
+        public Root Manatee_Deserialize()
         {
-            return JsonParser.Deserialize<Root>(JsonSampleString);
+            var ser = new Manatee.Json.Serialization.JsonSerializer();
+            var lol = JsonValue.Parse(JsonSampleString);
+            return ser.Deserialize<Root>(lol);
+        }
+
+
+        [Benchmark]
+        public Root ServiceStack_Deserialize()
+        {
+            return ServiceStack.Text.JsonSerializer.DeserializeFromString<Root>(JsonSampleString);
         }
 
 
@@ -48,7 +58,5 @@ namespace JsonBenchmark
         {
             return JsonConvert.DeserializeObject<Root>(JsonSampleStringAnother);
         }
-
-
     }
 }
