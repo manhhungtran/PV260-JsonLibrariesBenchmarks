@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace JsonBenchmark
 {
-    [ClrJob(isBaseline: true)]
+    [ClrJob(true)]
     [RPlotExporter, RankColumn]
     [HtmlExporter]
     public class JsonDeserializersBenchmarks : JsonBenchmarkBase
@@ -25,31 +25,44 @@ namespace JsonBenchmark
         [Benchmark]
         public Root NewtonsoftJson_Deserialize_ButBetter()
         {
-            Root ror;
+            Root result;
             using (var sr = new StreamReader(ChuckPath))
-            using (JsonReader reader = new JsonTextReader(sr))
+            using (var reader = new JsonTextReader(sr))
             {
                 var serializer = new JsonSerializer();
-                ror = serializer.Deserialize<Root>(reader);
+                result = serializer.Deserialize<Root>(reader);
             }
 
-            return ror;
+            return result;
         }
 
 
         [Benchmark]
         public Root Manatee_Deserialize()
         {
-            var ser = new Manatee.Json.Serialization.JsonSerializer();
-            var lol = JsonValue.Parse(JsonSampleString);
-            return ser.Deserialize<Root>(lol);
+            var serializer = new Manatee.Json.Serialization.JsonSerializer();
+            var jsonValue = JsonValue.Parse(JsonSampleString);
+            return serializer.Deserialize<Root>(jsonValue);
         }
 
 
         [Benchmark]
-        public Root ServiceStack_Deserialize()
+        public Root ServiceStack_Deserialize_String()
         {
             return ServiceStack.Text.JsonSerializer.DeserializeFromString<Root>(JsonSampleString);
+        }
+
+        [Benchmark]
+        public Root ServiceStack_Deserialize_TextReader()
+        {
+            Root result;
+
+            using (var sr = new StreamReader(ChuckPath))
+            {
+                result = ServiceStack.Text.JsonSerializer.DeserializeFromReader<Root>(sr);
+            }
+
+            return result;
         }
 
 
