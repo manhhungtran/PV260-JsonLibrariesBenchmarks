@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.IO;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Attributes.Columns;
 using BenchmarkDotNet.Attributes.Exporters;
 using BenchmarkDotNet.Attributes.Jobs;
@@ -14,7 +15,7 @@ namespace JsonBenchmark
     {
         private Root _root;
 
-        [GlobalSetup]
+        [GlobalSetup(Target = nameof(NewtonsoftJson_Serialize))]
         public void SetUp()
         {
             _root = JsonConvert.DeserializeObject<Root>(JsonSampleString);
@@ -25,7 +26,6 @@ namespace JsonBenchmark
         {
             return JsonConvert.SerializeObject(_root);
         }
-
 
         [GlobalCleanup]
         public void GlobalCleanup()

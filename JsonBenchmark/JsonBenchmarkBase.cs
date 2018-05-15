@@ -7,10 +7,15 @@ namespace JsonBenchmark
     {
         private const string TestFilesFolder = "TestFiles";
         protected string JsonSampleString;
+        protected string JsonSampleStringAnother;
+
+        protected string ChuckPath = Path.Combine(AppContext.BaseDirectory, TestFilesFolder, "chucknorris.json");
+        protected string LolPath = Path.Combine(AppContext.BaseDirectory, TestFilesFolder, "chucknorris.json");
 
         protected JsonBenchmarkBase()
         {
-            JsonSampleString = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, TestFilesFolder, "chucknorris.json"));
+            JsonSampleString = File.ReadAllText(ChuckPath);
+            JsonSampleStringAnother = File.ReadAllText(LolPath);
         }
     }
 }
